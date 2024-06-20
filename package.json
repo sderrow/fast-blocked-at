@@ -1,6 +1,6 @@
 {
   "name": "fast-blocked-at",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Detect event loop blockages and get a stack trace; fast enough for production.",
   "main": "index.js",
   "scripts": {
@@ -20,15 +20,15 @@
     "index.js",
     "native.cc",
     "package.json",
-    "package-lock.json",
+    "yarn.lock",
     "README.md"
   ],
   "readme": "README.md",
   "repository": {
     "type": "git",
-    "url": "git://github.com/watershedclimate/fast-blocked-at"
+    "url": "git://github.com/sderrow/fast-blocked-at"
   },
-  "homepage": "https://github.com/watershedclimate/fast-blocked-at",
+  "homepage": "https://github.com/sderrow/fast-blocked-at",
   "keywords": [
     "performance",
     "block",
