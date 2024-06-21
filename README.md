@@ -2,10 +2,13 @@
 
 Detect event loop blockages and get a stack trace; fast enough for production.
 
+## Note
+This is a nearly unchanged fork of kvakil's [fast-blocked-at](https://git.sr.ht/~kvakil/fast-blocked-at), with help from watershed-climate. The major difference is using `-std=c++2a` instead of `-std=c++20`.
+
 ## Installation
 
 ```
-npm install https://github.com/sderrow/fast-blocked-at/
+yarn add sderrow/fast-blocked-at
 ```
 (Tested with NodeJS 14, 16 & 18.)
 
