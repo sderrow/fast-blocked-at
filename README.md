@@ -12,6 +12,11 @@ yarn add sderrow/fast-blocked-at
 ```
 (Tested with NodeJS 14, 16 & 18.)
 
+## Prebuild
+Use [prebuildify](https://github.com/prebuild/prebuildify) to pre-build the binaries so the native module doesn't have to be built on demand. This is helpful if python is not available in your build environment.
+
+Specify the runtime, architecture, and platform as necessary. For example, `prebuildify -t 18.18.0 --arch x64 --platform linux --strip`.
+
 ## Usage
 
 ```javascript
