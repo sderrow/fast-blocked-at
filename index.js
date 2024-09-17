@@ -3,7 +3,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
-const addon = require('./build/Release/addon.node');
+const addon = require('node-gyp-build')(__dirname);
 module.exports = function (callback, options) {
     const {interval, threshold} = options;
     if (typeof callback !== 'function') {

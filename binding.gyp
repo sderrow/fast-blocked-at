@@ -13,4 +13,7 @@
       ],
     },
   ],
+  "variables" : {
+    "openssl_fips": "",
+  }
 }
