@@ -12,13 +12,13 @@ This is a nearly unchanged fork of kvakil's [fast-blocked-at](https://git.sr.ht/
 yarn add sderrow/fast-blocked-at
 ```
 
-(Tested with NodeJS 14, 16 & 18.)
+(Tested with NodeJS 14, 16 & 18, 20, 22)
 
 ## Prebuild
 
 Use [prebuildify](https://github.com/prebuild/prebuildify) to pre-build the binaries so the native module doesn't have to be built on demand. This is helpful if python is not available in your build environment.
 
-Specify the runtime, architecture, and platform as necessary. For example, `prebuildify -t 20.18.1 --arch x64 --platform linux --strip`.
+Specify the runtime, architecture, and platform as necessary. For example, `prebuildify -t 22.12.0 --arch x64 --platform linux --strip`.
 
 ## Usage
 
