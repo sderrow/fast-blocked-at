@@ -1,11 +1,11 @@
 {
   "name": "fast-blocked-at",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Detect event loop blockages and get a stack trace; fast enough for production.",
   "main": "index.js",
   "scripts": {
     "test": "tap --no-check-coverage",
-    "build": "node-gyp-build"
+    "install": "node-gyp-build"
   },
   "author": "Keyhan Vakil <kvakil@npm.kvakil.me>",
   "license": "MPL-2.0",
