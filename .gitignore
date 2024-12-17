@@ -3,3 +3,10 @@
 /.nyc_output/
 /build_tla/
 .DS_Store
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
