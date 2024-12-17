@@ -3,6 +3,7 @@
 Detect event loop blockages and get a stack trace; fast enough for production.
 
 ## Note
+
 This is a nearly unchanged fork of kvakil's [fast-blocked-at](https://git.sr.ht/~kvakil/fast-blocked-at), with help from watershed-climate. The major difference is using `-std=c++2a` instead of `-std=c++20`.
 
 ## Installation
@@ -10,27 +11,32 @@ This is a nearly unchanged fork of kvakil's [fast-blocked-at](https://git.sr.ht/
 ```
 yarn add sderrow/fast-blocked-at
 ```
+
 (Tested with NodeJS 14, 16 & 18.)
 
 ## Prebuild
+
 Use [prebuildify](https://github.com/prebuild/prebuildify) to pre-build the binaries so the native module doesn't have to be built on demand. This is helpful if python is not available in your build environment.
 
-Specify the runtime, architecture, and platform as necessary. For example, `prebuildify -t 18.18.0 --arch x64 --platform linux --strip`.
+Specify the runtime, architecture, and platform as necessary. For example, `prebuildify -t 20.18.1 --arch x64 --platform linux --strip`.
 
 ## Usage
 
 ```javascript
-const blocked = require('fast-blocked-at');
-blocked((durationMs, stack) => {
+const blocked = require("fast-blocked-at");
+blocked(
+  (durationMs, stack) => {
     console.log(`Blocked for ${durationMs}ms:\n${stack}`);
-}, {
+  },
+  {
     // Frequency with which the event loop is checked in ms
     // (Report event loop blockages which have taken longer than this)
     threshold: 200 /* milliseconds */,
     // How often to "heartbeat" to the "watchdog" (see below)
     // Lower values use more resources but makes it more accurate
     interval: 50 /* milliseconds */,
-})
+  }
+);
 ```
 
 ## Description
@@ -46,7 +52,7 @@ This differs from [blocked-at][ba] in two important ways:
 
 1. It is low-overhead and so suitable for production use.
 2. It captures the stack trace somewhere between `threshold` and `2 *
-   threshold` milliseconds after the start of the event loop cycle,
+threshold` milliseconds after the start of the event loop cycle,
    unlike blocked-at which tries to get the stack trace at the "start"
    of the blockage.
 

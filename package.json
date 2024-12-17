@@ -34,9 +34,10 @@
     "loop"
   ],
   "devDependencies": {
+    "prebuildify": "^6.0.1",
     "tap": "^16.3.0"
   },
   "dependencies": {
-    "node-gyp-build": "^4.8.2"
+    "node-gyp-build": "^4.8.4"
   }
 }
