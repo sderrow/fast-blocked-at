@@ -1229,6 +1229,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "fast-blocked-at@workspace:."
   dependencies:
+    node-gyp: "npm:^11.0.0"
     node-gyp-build: "npm:^4.8.4"
     prebuildify: "npm:^6.0.1"
     tap: "npm:^16.3.0"
@@ -2089,7 +2090,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-gyp@npm:latest":
+"node-gyp@npm:^11.0.0, node-gyp@npm:latest":
   version: 11.0.0
   resolution: "node-gyp@npm:11.0.0"
   dependencies:
