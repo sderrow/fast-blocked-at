@@ -166,6 +166,9 @@ importers:
 
   .:
     dependencies:
+      node-gyp:
+        specifier: ^13.0.2
+        version: 13.0.2
       node-gyp-build:
         specifier: ^4.8.4
         version: 4.8.4
@@ -182,9 +185,6 @@ importers:
       node:
         specifier: runtime:24.21.0
         version: runtime:24.21.0
-      node-gyp:
-        specifier: ^13.0.2
-        version: 13.0.2
       oxfmt:
         specifier: ^0.71.0
         version: 0.71.0

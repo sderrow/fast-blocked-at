@@ -1,6 +1,6 @@
 {
   "name": "@sderrow/fast-blocked-at",
-  "version": "0.1.0",
+  "version": "0.1.0-rc.0",
   "description": "Detect event loop blockages and get a stack trace; fast enough for production.",
   "keywords": [
     "block",
@@ -52,13 +52,13 @@
     "test": "pnpm build && vitest run"
   },
   "dependencies": {
+    "node-gyp": "^13.0.2",
     "node-gyp-build": "^4.8.4"
   },
   "devDependencies": {
     "@types/node": "^24.19.0",
     "husky": "^9.1.7",
     "lint-staged": "^17.6.0",
-    "node-gyp": "^13.0.2",
     "oxfmt": "^0.71.0",
     "oxlint": "^1.86.0",
     "prebuildify": "^6.0.1",

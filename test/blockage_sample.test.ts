@@ -83,15 +83,17 @@ describe("sample metadata", () => {
 
     expect(seen.length).toBe(windows.length);
     for (let i = 0; i < seen.length; i++) {
-      expect(seen[i].stack).toMatch(/blockSync/);
-      expect(seen[i].durationMs).toBeGreaterThanOrEqual(150);
-      expect(seen[i].executionAsyncId).toBe(ids[i]);
-      expect(typeof seen[i].capturedAtNs).toBe("bigint");
-      expect(seen[i].capturedAtNs >= windows[i].before).toBe(true);
-      expect(seen[i].capturedAtNs <= windows[i].after).toBe(true);
+      const s = seen[i]!;
+      const w = windows[i]!;
+      expect(s.stack).toMatch(/blockSync/);
+      expect(s.durationMs).toBeGreaterThanOrEqual(150);
+      expect(s.executionAsyncId).toBe(ids[i]);
+      expect(typeof s.capturedAtNs).toBe("bigint");
+      expect(s.capturedAtNs >= w.before).toBe(true);
+      expect(s.capturedAtNs <= w.after).toBe(true);
       expect(kinds[i]).toBeTypeOf("string");
     }
-    expect(seen[1].executionAsyncId).toBe(seen[2].executionAsyncId);
+    expect(seen[1]!.executionAsyncId).toBe(seen[2]!.executionAsyncId);
   });
 
   it("keeps two-argument callbacks compatible", async () => {

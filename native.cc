@@ -26,7 +26,12 @@ void AppendV8String(Isolate *isolate, std::u16string &r, Local<String> s) {
   }
   std::size_t sz = r.size();
   r.resize(sz + s->Length());
+#if NODE_MODULE_VERSION >= 137
+  // V8 removed String::Write in favor of String::WriteV2 (Node 24+).
+  s->WriteV2(isolate, 0, s->Length(), (uint16_t *)(&r[sz]));
+#else
   s->Write(isolate, (uint16_t *)(&r[sz]));
+#endif
 }
 
 /**
@@ -412,7 +417,8 @@ static void Heartbeat(const FunctionCallbackInfo<Value> &info) {
 }
 
 NODE_MODULE_INIT() {
-  Isolate *isolate = context->GetIsolate();
+  // Context::GetIsolate() was removed in V8 14.6 (Node 26+).
+  Isolate *isolate = Isolate::GetCurrent();
 
   PerIsolateData *data = new PerIsolateData(isolate);
 
