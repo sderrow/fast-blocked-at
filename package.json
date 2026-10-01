@@ -1,6 +1,6 @@
 {
   "name": "@sderrow/fast-blocked-at",
-  "version": "0.1.0-rc.0",
+  "version": "0.1.0",
   "description": "Detect event loop blockages and get a stack trace; fast enough for production.",
   "keywords": [
     "block",
