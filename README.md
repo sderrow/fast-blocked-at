@@ -35,7 +35,7 @@ blocked(
     // How often to "heartbeat" to the "watchdog" (see below)
     // Lower values use more resources but makes it more accurate
     interval: 50 /* milliseconds */,
-  }
+  },
 );
 ```
 

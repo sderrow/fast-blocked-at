@@ -2,14 +2,19 @@
   "name": "fast-blocked-at",
   "version": "0.0.12",
   "description": "Detect event loop blockages and get a stack trace; fast enough for production.",
-  "main": "index.js",
-  "scripts": {
-    "test": "tap --no-check-coverage",
-    "install": "node-gyp-build"
-  },
-  "author": "Keyhan Vakil <kvakil@npm.kvakil.me>",
+  "keywords": [
+    "block",
+    "event",
+    "loop",
+    "performance"
+  ],
+  "homepage": "https://github.com/sderrow/fast-blocked-at",
   "license": "MPL-2.0",
-  "gypfile": true,
+  "author": "Keyhan Vakil <kvakil@npm.kvakil.me>",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sderrow/fast-blocked-at"
+  },
   "files": [
     "LICENSE",
     "binding.gyp",
@@ -21,25 +26,40 @@
     "README.md",
     "prebuilds"
   ],
-  "readme": "README.md",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/sderrow/fast-blocked-at"
-  },
-  "homepage": "https://github.com/sderrow/fast-blocked-at",
-  "keywords": [
-    "performance",
-    "block",
-    "event",
-    "loop"
-  ],
-  "devDependencies": {
-    "prebuildify": "^6.0.1",
-    "tap": "^16.3.0"
+  "main": "index.js",
+  "scripts": {
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "install": "node-gyp-build",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "prepare": "husky",
+    "test": "tap --no-check-coverage"
   },
   "dependencies": {
     "node-gyp": "^11.0.0",
     "node-gyp-build": "^4.8.4"
   },
-  "packageManager": "yarn@4.5.3"
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "oxfmt": "^0.71.0",
+    "oxlint": "^1.86.0",
+    "prebuildify": "^6.0.1",
+    "tap": "^16.3.0"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.8.2",
+      "onFail": "download"
+    },
+    "runtime": {
+      "name": "node",
+      "version": "24.21.0",
+      "onFail": "download"
+    }
+  },
+  "gypfile": true,
+  "readme": "README.md"
 }
