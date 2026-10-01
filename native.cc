@@ -71,7 +71,8 @@ public:
         //^ interrupt_done = FALSE;
         interrupt_done_(false),
         //^ stack_ready = FALSE;
-        stack_ready_(false), isolate_(isolate) {
+        stack_ready_(false), captured_execution_async_id_(0),
+        captured_at_ns_(0), isolate_(isolate) {
     //^ begin_terminate = FALSE;
     node::AddEnvironmentCleanupHook(isolate, DeleteInstance, this);
   }
@@ -215,12 +216,30 @@ public:
       Local<Number> blockage_ms =
           Number::New(isolate_, estimated_event_loop_blockage_ms);
 
-      Local<Value> argv[2] = {blockage_ms, stack};
       Local<Context> context = isolate_->GetCurrentContext();
+      Local<Value> execution_async_id;
+      if (captured_execution_async_id_ == 0) {
+        execution_async_id = Null(isolate_);
+      } else {
+        execution_async_id =
+            Number::New(isolate_, captured_execution_async_id_);
+      }
+      Local<BigInt> captured_at_ns =
+          BigInt::NewFromUnsigned(isolate_, captured_at_ns_);
+      Local<Object> sample = Object::New(isolate_);
+      Local<String> execution_async_id_key =
+          String::NewFromUtf8(isolate_, "executionAsyncId").ToLocalChecked();
+      Local<String> captured_at_ns_key =
+          String::NewFromUtf8(isolate_, "capturedAtNs").ToLocalChecked();
+      // Ignore failures; callback still receives duration and stack.
+      (void)sample->Set(context, execution_async_id_key, execution_async_id);
+      (void)sample->Set(context, captured_at_ns_key, captured_at_ns);
+
+      Local<Value> argv[3] = {blockage_ms, stack, sample};
       // Ignore the function results.
       // TODO(kvakil): should we throw an error?
       (void)(Local<Function>::New(isolate_, callback_)
-                 ->Call(context, Null(isolate_), 2, argv));
+                 ->Call(context, Null(isolate_), 3, argv));
 
       //^ MarkStackReceived:
       //^ stack_ready := FALSE;
@@ -243,6 +262,12 @@ private:
   void BeginInterrupt() {
     //^ if (request_interrupt_begin) {
     //^ request_interrupt_begin := FALSE;
+    // Capture alongside the stack. Do not invoke JavaScript here; Heartbeat()
+    // delivers these values. uv_hrtime() shares the clock used by
+    // process.hrtime.bigint().
+    captured_at_ns_ = uv_hrtime();
+    captured_execution_async_id_ =
+        node::AsyncHooksGetExecutionAsyncId(isolate_);
     Local<StackTrace> stack_trace = StackTrace::CurrentStackTrace(isolate_, 32);
     int frame_count = stack_trace->GetFrameCount();
     for (int i = 0; i < frame_count; i++) {
@@ -357,6 +382,9 @@ private:
   std::condition_variable stack_ready_cv_;
   std::mutex stack_ready_m_;
   std::atomic<bool> stack_ready_;
+
+  double captured_execution_async_id_;
+  uint64_t captured_at_ns_;
 
   Isolate *isolate_;
   Persistent<Function> callback_;
