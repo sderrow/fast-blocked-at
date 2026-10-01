@@ -9,10 +9,10 @@ This is a nearly unchanged fork of kvakil's [fast-blocked-at](https://git.sr.ht/
 ## Installation
 
 ```
-yarn add sderrow/fast-blocked-at
+npm install @sderrow/fast-blocked-at
 ```
 
-(Tested with NodeJS 14, 16 & 18, 20, 22)
+(Tested with Node.js 22 & 24)
 
 ## Prebuild
 
@@ -33,7 +33,7 @@ This yields `prebuilds/darwin-arm64/fast-blocked-at.abi127.node`, `.abi137.node`
 ## Usage
 
 ```javascript
-const blocked = require("fast-blocked-at");
+const blocked = require("@sderrow/fast-blocked-at");
 blocked(
   (durationMs, stack, sample) => {
     console.log(`Blocked for ${durationMs}ms:\n${stack}`);
@@ -47,6 +47,18 @@ blocked(
     // Lower values use more resources but makes it more accurate
     interval: 50 /* milliseconds */,
   },
+);
+```
+
+TypeScript:
+
+```typescript
+import blocked, { type BlockageSample } from "@sderrow/fast-blocked-at";
+blocked(
+  (durationMs: number, stack: string | null, sample: BlockageSample) => {
+    console.log(`Blocked for ${durationMs}ms:\n${stack}`);
+  },
+  { threshold: 200, interval: 50 },
 );
 ```
 
@@ -91,7 +103,3 @@ may include more advanced functionality like automatically starting the CPU
 profiler.
 
 [ba]: https://github.com/naugtur/blocked-at
-
-## Contributing
-
-We're not accepting contributions at this time.

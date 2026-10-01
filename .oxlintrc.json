@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["typescript", "unicorn", "oxc", "eslint", "node", "promise"],
+  "plugins": ["typescript", "unicorn", "oxc", "eslint", "node", "promise", "vitest"],
   "env": {
     "builtin": true,
     "node": true
@@ -37,6 +37,7 @@
     "typescript/ban-ts-comment": "error",
     "typescript/no-empty-object-type": "error",
     "typescript/no-namespace": "error",
+    "vitest/no-focused-tests": "error",
     "unicorn/no-array-reverse": "off",
     "unicorn/no-array-sort": "off"
   }

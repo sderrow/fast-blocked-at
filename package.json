@@ -1,6 +1,6 @@
 {
-  "name": "fast-blocked-at",
-  "version": "0.0.12",
+  "name": "@sderrow/fast-blocked-at",
+  "version": "0.1.0",
   "description": "Detect event loop blockages and get a stack trace; fast enough for production.",
   "keywords": [
     "block",
@@ -11,41 +11,60 @@
   "homepage": "https://github.com/sderrow/fast-blocked-at",
   "license": "MPL-2.0",
   "author": "Keyhan Vakil <kvakil@npm.kvakil.me>",
+  "contributors": [
+    {
+      "name": "Sean Derrow",
+      "email": "sean.derrow@gmail.com"
+    }
+  ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/sderrow/fast-blocked-at"
+    "url": "https://github.com/sderrow/fast-blocked-at.git"
   },
   "files": [
     "LICENSE",
     "binding.gyp",
-    "index.d.ts",
-    "index.js",
     "native.cc",
+    "dist",
     "package.json",
     "README.md",
     "prebuilds"
   ],
-  "main": "index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
+    "build": "tsdown",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "install": "node-gyp-build",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "prepare": "husky",
-    "test": "tap --no-check-coverage"
+    "prepublishOnly": "pnpm build",
+    "test": "pnpm build && vitest run"
   },
   "dependencies": {
     "node-gyp-build": "^4.8.4"
   },
   "devDependencies": {
+    "@types/node": "^24.19.0",
     "husky": "^9.1.7",
     "lint-staged": "^17.6.0",
     "node-gyp": "^13.0.2",
     "oxfmt": "^0.71.0",
     "oxlint": "^1.86.0",
     "prebuildify": "^6.0.1",
-    "tap": "^16.3.0"
+    "tsdown": "^0.23.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3"
   },
   "devEngines": {
     "packageManager": {
