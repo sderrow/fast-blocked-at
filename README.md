@@ -18,15 +18,26 @@ yarn add sderrow/fast-blocked-at
 
 Use [prebuildify](https://github.com/prebuild/prebuildify) to pre-build the binaries so the native module doesn't have to be built on demand. This is helpful if python is not available in your build environment.
 
-Specify the runtime, architecture, and platform as necessary. For example, `prebuildify -t 22.12.0 --arch x64 --platform linux --strip`.
+This package uses raw V8, so each Node major needs its own binary. Build with `--napi=false` to get ABI-tagged files (Node 22 = abi127, Node 24 = abi137), one per platform/arch, each built on that OS:
+
+```
+prebuildify -t 22.22.3 --napi=false --arch arm64 --platform darwin --strip
+prebuildify -t 24.21.0 --napi=false --arch arm64 --platform darwin --strip
+# run these two on linux/amd64:
+prebuildify -t 22.22.3 --napi=false --arch x64 --platform linux --strip
+prebuildify -t 24.21.0 --napi=false --arch x64 --platform linux --strip
+```
+
+This yields `prebuilds/darwin-arm64/fast-blocked-at.abi127.node`, `.abi137.node`, and the same pair under `prebuilds/linux-x64/`. `node-gyp-build` picks the matching ABI; a missing ABI falls back to source build instead of loading the wrong binary.
 
 ## Usage
 
 ```javascript
 const blocked = require("fast-blocked-at");
 blocked(
-  (durationMs, stack) => {
+  (durationMs, stack, sample) => {
     console.log(`Blocked for ${durationMs}ms:\n${stack}`);
+    console.log(`Captured in async resource ${sample.executionAsyncId} at ${sample.capturedAtNs}`);
   },
   {
     // Frequency with which the event loop is checked in ms
@@ -38,6 +49,25 @@ blocked(
   },
 );
 ```
+
+The callback receives three arguments: `durationMs`, `stack`, and
+`sample`. Existing two-argument callbacks remain compatible; the third
+argument is additive.
+
+`sample` is `{ executionAsyncId, capturedAtNs }`:
+
+- `executionAsyncId` is the `async_hooks.executionAsyncId()` active when
+  the stack was captured, or `null` when no execution context was
+  available (async ID `0`). Use it to associate the sampled stack with
+  the specific callback execution that was running while blocked.
+- `capturedAtNs` is a `bigint` nanosecond timestamp taken alongside the
+  stack. It shares the clock used by Node's `process.hrtime.bigint()`,
+  so it can be compared directly against `process.hrtime.bigint()`
+  values recorded around the blocking work.
+
+Note that `durationMs` still measures heartbeat delay (how late the
+heartbeat ran), while `sample` identifies the execution whose stack was
+captured. Delivery is delayed until the event loop unblocks.
 
 ## Description
 
